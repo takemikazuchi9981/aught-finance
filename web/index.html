@@ -28,7 +28,10 @@
       <section class="panel" aria-labelledby="companies-title">
         <div class="panel-head">
           <h2 id="companies-title">Companies</h2>
-          <span class="count" id="companies-count">0</span>
+          <div class="head-actions">
+            <button id="new-company-btn" class="btn-gold" type="button">+ New</button>
+            <span class="count" id="companies-count">0</span>
+          </div>
         </div>
         <div class="panel-body" id="companies"></div>
       </section>
@@ -44,7 +47,10 @@
       <section class="panel" aria-labelledby="theses-title">
         <div class="panel-head">
           <h2 id="theses-title">Active Theses</h2>
-          <span class="count" id="theses-count">0</span>
+          <div class="head-actions">
+            <button id="new-thesis-btn" class="btn-gold" type="button">+ New</button>
+            <span class="count" id="theses-count">0</span>
+          </div>
         </div>
         <div class="panel-body" id="theses"></div>
       </section>
@@ -59,11 +65,132 @@
     </div>
   </main>
 
+  <!-- Thesis entry modal (Phase 3) -->
+  <div class="modal-overlay" id="thesis-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head">
+        <h2 id="modal-title">New Thesis</h2>
+        <button class="modal-close" id="modal-close" type="button" aria-label="Close">×</button>
+      </div>
+      <form id="thesis-form" class="modal-body" novalidate>
+        <label class="field">
+          <span class="field-label">Title</span>
+          <input id="f-title" name="title" type="text" maxlength="120"
+                 placeholder="AI accelerator demand outruns supply" required />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Claim</span>
+          <textarea id="f-claim" name="claim" rows="4"
+                    placeholder="State the causal argument and what would confirm or break it…" required></textarea>
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Conviction</span>
+            <select id="f-conviction" name="conviction" required>
+              <option value="1">1 — Speculative</option>
+              <option value="2">2 — Tentative</option>
+              <option value="3" selected>3 — Reasonable</option>
+              <option value="4">4 — Strong</option>
+              <option value="5">5 — High conviction</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Horizon end date</span>
+            <input id="f-horizon" name="horizon_date" type="date" required />
+          </label>
+        </div>
+
+        <p class="form-msg" id="form-msg" role="status"></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn-gold" id="save-thesis">Save Thesis</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Company entry modal (Quest 2) -->
+  <div class="modal-overlay" id="company-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="company-modal-title">
+      <div class="modal-head">
+        <h2 id="company-modal-title">New Company</h2>
+        <button class="modal-close" id="company-modal-close" type="button" aria-label="Close">×</button>
+      </div>
+      <form id="company-form" class="modal-body" novalidate>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Name</span>
+            <input id="c-name" name="name" type="text" maxlength="120"
+                   placeholder="Nvidia" required />
+          </label>
+          <label class="field">
+            <span class="field-label">Ticker</span>
+            <input id="c-ticker" name="ticker" type="text" maxlength="20" placeholder="NVDA" />
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Exchange</span>
+            <input id="c-exchange" name="exchange" type="text" maxlength="40" placeholder="NASDAQ" />
+          </label>
+          <label class="field">
+            <span class="field-label">Country</span>
+            <input id="c-country" name="country" type="text" maxlength="60" placeholder="United States" />
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Sector</span>
+            <input id="c-sector" name="sector" type="text" maxlength="80" placeholder="Semiconductors" />
+          </label>
+          <label class="field">
+            <span class="field-label">Industry</span>
+            <input id="c-industry" name="industry" type="text" maxlength="80" placeholder="GPUs" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Website</span>
+          <input id="c-website" name="website" type="url" maxlength="200" placeholder="https://www.nvidia.com" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Description</span>
+          <textarea id="c-description" name="description" rows="3"
+                    placeholder="What the company does and why it matters…"></textarea>
+        </label>
+
+        <p class="form-msg" id="company-form-msg" role="status"></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="company-modal-cancel">Cancel</button>
+          <button type="submit" class="btn-gold" id="save-company">Save Company</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <footer class="footer">
     <span>Aught · Phase 2 dashboard</span>
     <span id="last-updated"></span>
   </footer>
 
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
+
+  <!-- MVP 0.1: read-only Supabase connection test. Logs theses to console; no UI change. -->
+  <script type="module">
+    import { getTheses } from "./supabase.js";
+
+    // Module scripts are deferred, so the DOM is already parsed here.
+    getTheses().then((theses) => {
+      console.log("[Aught] public.theses contents:", theses);
+    });
+  </script>
 </body>
 </html>
