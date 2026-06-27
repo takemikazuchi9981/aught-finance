@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aught — Causal Intelligence Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◐</span>
+      <div>
+        <h1>Aught</h1>
+        <p class="tagline">Personal causal-intelligence engine</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <input id="search" class="search" type="search" placeholder="Search companies, events, theses…" />
+      <span class="status-dot" title="Live"></span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="stats" id="stats" aria-label="Summary statistics"></section>
+
+    <div class="grid">
+      <section class="panel" aria-labelledby="companies-title">
+        <div class="panel-head">
+          <h2 id="companies-title">Companies</h2>
+          <span class="count" id="companies-count">0</span>
+        </div>
+        <div class="panel-body" id="companies"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="events-title">
+        <div class="panel-head">
+          <h2 id="events-title">Recent Events</h2>
+          <span class="count" id="events-count">0</span>
+        </div>
+        <div class="panel-body" id="events"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="theses-title">
+        <div class="panel-head">
+          <h2 id="theses-title">Active Theses</h2>
+          <span class="count" id="theses-count">0</span>
+        </div>
+        <div class="panel-body" id="theses"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="relationships-title">
+        <div class="panel-head">
+          <h2 id="relationships-title">Relationships</h2>
+          <span class="count" id="relationships-count">0</span>
+        </div>
+        <div class="panel-body" id="relationships"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>Aught · Phase 2 dashboard</span>
+    <span id="last-updated"></span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
